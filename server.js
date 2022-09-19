@@ -14,20 +14,23 @@ global.io = io;
 /* server.use(middleware);
 server.use(router); */
 
-
 // response middleware
 router.render = (req, res) => {
-    const path = req.path;
-    const method = req.method;
-    
-    if (path.includes("/conversations") && (method === "POST" || method === "PATCH")) {
-        // emit socket event
-        io.emit("conversation", {
-            data: res.locals.data,
-        });
-    }
-    
-    res.json(res.locals.data);
+  const path = req.path;
+  const method = req.method;
+
+  if (path.includes("/conversations") && (method === "POST" || method === "PATCH")) {
+    // emit socket event
+    io.emit("conversation", {
+      data: res.locals.data,
+    });
+  } else if (path.includes("/messages") && method === "POST") {
+    io.emit("messages", {
+      data: res.locals.data,
+    });
+  }
+
+  res.json(res.locals.data);
 };
 
 // Bind the router db to the app
