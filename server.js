@@ -25,7 +25,7 @@ router.render = (req, res) => {
       data: res.locals.data,
     });
   } else if (path.includes("/messages") && method === "POST") {
-    io.emit("messages", {
+    io.emit("message", {
       data: res.locals.data,
     });
   }
